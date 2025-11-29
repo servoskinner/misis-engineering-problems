@@ -1,0 +1,429 @@
+@prefix : <http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/> .
+
+<http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8> rdf:type owl:Ontology .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled
+<http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/AuthoredBy
+:AuthoredBy rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/Includes
+:Includes rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf owl:topObjectProperty ;
+          rdf:type owl:TransitiveProperty .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/Requests
+:Requests rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/StudiesAt
+:StudiesAt rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf owl:topObjectProperty .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/EduProgram
+:EduProgram rdf:type owl:Class ;
+            rdfs:subClassOf [ rdf:type owl:Restriction ;
+                              owl:onProperty :Includes ;
+                              owl:allValuesFrom :Subject
+                            ] .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/EduResource
+:EduResource rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/Query
+:Query rdf:type owl:Class ;
+       rdfs:subClassOf [ rdf:type owl:Restriction ;
+                         owl:onProperty :Requests ;
+                         owl:someValuesFrom :EduResource
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :AuthoredBy ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :Student
+                       ] .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/Student
+:Student rdf:type owl:Class ;
+         rdfs:subClassOf [ rdf:type owl:Restriction ;
+                           owl:onProperty :StudiesAt ;
+                           owl:allValuesFrom :EduProgram
+                         ] .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/Subject
+:Subject rdf:type owl:Class ;
+         rdfs:subClassOf [ rdf:type owl:Restriction ;
+                           owl:onProperty :Includes ;
+                           owl:allValuesFrom :EduResource
+                         ] .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/ValidQuery
+:ValidQuery rdf:type owl:Class ;
+            rdfs:subClassOf :Query ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :Requests ;
+                              owl:someValuesFrom :EduResource
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :AuthoredBy ;
+                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass :Student
+                            ] .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/BookCPP
+:BookCPP rdf:type owl:NamedIndividual ,
+                  :EduResource ,
+                  :Subject ,
+                  [ rdf:type owl:Restriction ;
+                    owl:onProperty :Includes ;
+                    owl:allValuesFrom :EduResource
+                  ] .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/BookPython
+:BookPython rdf:type owl:NamedIndividual ,
+                     :EduResource ,
+                     :Subject ,
+                     [ rdf:type owl:Restriction ;
+                       owl:onProperty :Includes ;
+                       owl:allValuesFrom :EduResource
+                     ] .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/CPlusPlus
+:CPlusPlus rdf:type owl:NamedIndividual ,
+                    :Subject ,
+                    [ rdf:type owl:Restriction ;
+                      owl:onProperty :Includes ;
+                      owl:allValuesFrom :EduResource
+                    ] ;
+           :Includes :BookCPP .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/Calculus
+:Calculus rdf:type owl:NamedIndividual ,
+                   :Subject ,
+                   [ rdf:type owl:Restriction ;
+                     owl:onProperty :Includes ;
+                     owl:allValuesFrom :EduResource
+                   ] ;
+          :Includes :CalculusLectures .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/CalculusLectures
+:CalculusLectures rdf:type owl:NamedIndividual ,
+                           :EduResource ,
+                           :Subject ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :Includes ;
+                             owl:allValuesFrom :EduResource
+                           ] .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/ComputerScience
+:ComputerScience rdf:type owl:NamedIndividual ,
+                          :EduProgram ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :Includes ;
+                            owl:allValuesFrom :Subject
+                          ] ;
+                 :Includes :BookCPP ,
+                           :BookPython ,
+                           :CPlusPlus ,
+                           :Python .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/ElectricityAndMagnetism
+:ElectricityAndMagnetism rdf:type owl:NamedIndividual ,
+                                  :Subject ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :Includes ;
+                                    owl:allValuesFrom :EduResource
+                                  ] ;
+                         :Includes :GeneralPhysicsLectures .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/GeneralPhysicsLectures
+:GeneralPhysicsLectures rdf:type owl:NamedIndividual ,
+                                 :EduResource ,
+                                 :Subject ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :Includes ;
+                                   owl:allValuesFrom :EduResource
+                                 ] .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/Geometry
+:Geometry rdf:type owl:NamedIndividual ,
+                   :Subject ,
+                   [ rdf:type owl:Restriction ;
+                     owl:onProperty :Includes ;
+                     owl:allValuesFrom :EduResource
+                   ] .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/JaneDoe
+:JaneDoe rdf:type owl:NamedIndividual ,
+                  :Student ,
+                  [ rdf:type owl:Restriction ;
+                    owl:onProperty :StudiesAt ;
+                    owl:allValuesFrom :EduProgram
+                  ] ;
+         :StudiesAt :Mathematics ,
+                    :Physics .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/JohnDoe
+:JohnDoe rdf:type owl:NamedIndividual ,
+                  :Student ,
+                  [ rdf:type owl:Restriction ;
+                    owl:onProperty :StudiesAt ;
+                    owl:allValuesFrom :EduProgram
+                  ] ;
+         :StudiesAt :ComputerScience ,
+                    :Mathematics .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/LinAlgLectures
+:LinAlgLectures rdf:type owl:NamedIndividual ,
+                         :EduResource ,
+                         :Subject ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :Includes ;
+                           owl:allValuesFrom :EduResource
+                         ] .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/LinAlgProblemBook
+:LinAlgProblemBook rdf:type owl:NamedIndividual ,
+                            :EduResource ,
+                            :Subject ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :Includes ;
+                              owl:allValuesFrom :EduResource
+                            ] .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/LinearAlgebra
+:LinearAlgebra rdf:type owl:NamedIndividual ,
+                        :Subject ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty :Includes ;
+                          owl:allValuesFrom :EduResource
+                        ] ;
+               :Includes :LinAlgLectures ,
+                         :LinAlgProblemBook .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/Mathematics
+:Mathematics rdf:type owl:NamedIndividual ,
+                      :EduProgram ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :Includes ;
+                        owl:allValuesFrom :Subject
+                      ] ;
+             :Includes :Calculus ,
+                       :CalculusLectures ,
+                       :Geometry ,
+                       :LinAlgLectures ,
+                       :LinAlgProblemBook ,
+                       :LinearAlgebra .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/Mechanics
+:Mechanics rdf:type owl:NamedIndividual ,
+                    :Subject ,
+                    [ rdf:type owl:Restriction ;
+                      owl:onProperty :Includes ;
+                      owl:allValuesFrom :EduResource
+                    ] ;
+           :Includes :GeneralPhysicsLectures .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/Physics
+:Physics rdf:type owl:NamedIndividual ,
+                  :EduProgram ,
+                  [ rdf:type owl:Restriction ;
+                    owl:onProperty :Includes ;
+                    owl:allValuesFrom :Subject
+                  ] ;
+         :Includes :ElectricityAndMagnetism ,
+                   :GeneralPhysicsLectures ,
+                   :Mechanics ,
+                   :Thermodynamics .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/Python
+:Python rdf:type owl:NamedIndividual ,
+                 :Subject ,
+                 [ rdf:type owl:Restriction ;
+                   owl:onProperty :Includes ;
+                   owl:allValuesFrom :EduResource
+                 ] ;
+        :Includes :BookPython .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/Query1
+:Query1 rdf:type owl:NamedIndividual ,
+                 :Query ,
+                 :ValidQuery ,
+                 [ rdf:type owl:Restriction ;
+                   owl:onProperty :Requests ;
+                   owl:someValuesFrom :EduResource
+                 ] ,
+                 [ rdf:type owl:Restriction ;
+                   owl:onProperty :AuthoredBy ;
+                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                   owl:onClass :Student
+                 ] ;
+        :AuthoredBy :JaneDoe ;
+        :Requests :GeneralPhysicsLectures .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/Query2
+:Query2 rdf:type owl:NamedIndividual ,
+                 :Query ,
+                 [ rdf:type owl:Restriction ;
+                   owl:onProperty :Requests ;
+                   owl:someValuesFrom :EduResource
+                 ] ,
+                 [ rdf:type owl:Restriction ;
+                   owl:onProperty :AuthoredBy ;
+                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                   owl:onClass :Student
+                 ] ;
+        :AuthoredBy :JaneDoe ;
+        :Requests :BookPython .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/Query3
+:Query3 rdf:type owl:NamedIndividual ,
+                 :Query ,
+                 :ValidQuery ,
+                 [ rdf:type owl:Restriction ;
+                   owl:onProperty :Requests ;
+                   owl:someValuesFrom :EduResource
+                 ] ,
+                 [ rdf:type owl:Restriction ;
+                   owl:onProperty :AuthoredBy ;
+                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                   owl:onClass :Student
+                 ] ;
+        :AuthoredBy :JohnDoe ;
+        :Requests :BookCPP .
+
+
+###  http://www.semanticweb.org/si3gfried/ontologies/2025/10/untitled-ontology-8/Thermodynamics
+:Thermodynamics rdf:type owl:NamedIndividual ,
+                         :Subject ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :Includes ;
+                           owl:allValuesFrom :EduResource
+                         ] ;
+                :Includes :GeneralPhysicsLectures .
+
+
+#################################################################
+#    Rules
+#################################################################
+
+:s rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:q rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:r rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:sub rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+:prog rdf:type <http://www.w3.org/2003/11/swrl#Variable> .
+
+[ <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled> "true"^^xsd:boolean ;
+   rdfs:comment "" ;
+   rdfs:label "S1" ;
+   rdf:type <http://www.w3.org/2003/11/swrl#Imp> ;
+   <http://www.w3.org/2003/11/swrl#body> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> :Student ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> :s
+                                                     ] ;
+                                           rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                      rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                  <http://www.w3.org/2003/11/swrl#propertyPredicate> :AuthoredBy ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument1> :q ;
+                                                                  <http://www.w3.org/2003/11/swrl#argument2> :s
+                                                                ] ;
+                                                      rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                 rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                             <http://www.w3.org/2003/11/swrl#propertyPredicate> :Requests ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument1> :q ;
+                                                                             <http://www.w3.org/2003/11/swrl#argument2> :r
+                                                                           ] ;
+                                                                 rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                            rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                                        <http://www.w3.org/2003/11/swrl#propertyPredicate> :Includes ;
+                                                                                        <http://www.w3.org/2003/11/swrl#argument1> :sub ;
+                                                                                        <http://www.w3.org/2003/11/swrl#argument2> :r
+                                                                                      ] ;
+                                                                            rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                       rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#propertyPredicate> :Includes ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#argument1> :prog ;
+                                                                                                   <http://www.w3.org/2003/11/swrl#argument2> :sub
+                                                                                                 ] ;
+                                                                                       rdf:rest [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                                                                                  rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#IndividualPropertyAtom> ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#propertyPredicate> :StudiesAt ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#argument1> :s ;
+                                                                                                              <http://www.w3.org/2003/11/swrl#argument2> :prog
+                                                                                                            ] ;
+                                                                                                  rdf:rest rdf:nil
+                                                                                                ]
+                                                                                     ]
+                                                                          ]
+                                                               ]
+                                                    ]
+                                         ] ;
+   <http://www.w3.org/2003/11/swrl#head> [ rdf:type <http://www.w3.org/2003/11/swrl#AtomList> ;
+                                           rdf:first [ rdf:type <http://www.w3.org/2003/11/swrl#ClassAtom> ;
+                                                       <http://www.w3.org/2003/11/swrl#classPredicate> :ValidQuery ;
+                                                       <http://www.w3.org/2003/11/swrl#argument1> :q
+                                                     ] ;
+                                           rdf:rest rdf:nil
+                                         ]
+ ] .
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
